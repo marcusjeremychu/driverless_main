@@ -1,0 +1,2 @@
+cone_visualization:ouster_example/ouster_ros:transforms
+-DCMAKE_BUILD_TYPE=Release -DCATKIN_DEVEL_PREFIX=/home/uwfsae/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/uwfsae/catkin_ws/install -G Unix Makefiles

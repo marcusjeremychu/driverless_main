@@ -1,0 +1,7 @@
+<launch>
+    <!-- <node name='odom_to_base_link_broadcaster' pkg='transforms' type='odom_to_base_link_broadcaster.py' output='screen'/> -->
+    <node pkg='tf2_ros' type='static_transform_publisher' name='base_to_lidar_broadcaster' args='0.4 0 -0.6 0 0 0 1 base_link lidar'/>
+    <node pkg='tf2_ros' type='static_transform_publisher' name='base_to_camera_broadcaster' args='0.4 0.05 0 0 0 0 1 base_link left_camera'/>
+    <node
+     pkg='tf2_ros' type='static_transform_publisher' name='map_to_base_link' args='0 0 0 0 0 0 1 map base_link'/>
+</launch>
