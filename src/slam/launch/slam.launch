@@ -1,0 +1,60 @@
+<launch>
+    <!-- <node name="imu_filter" pkg="imu_filter_madgwick" type="imu_filter_node" output="screen">
+        <param name="gain" value="0.1" type="double"/>
+        <param name="zeta" value="0.2" type="double"/>
+        <param name="world_frame" value="enu" type="string"/>
+        <param name="use_mag" value="False" type="bool"/>
+        <param name="use_magnetic_field_msg" value="False" type="bool"/>
+        <param name="mag_bias_x" value="0.0" type="double"/>
+        <param name="mag_bias_y" value="0.0" type="double"/>
+        <param name="mag_bias_z" value="0.0" type="double"/>
+        <param name="stateless" value="False" type="bool"/>
+    </node> -->
+
+    <!-- <node name="imu_filter" pkg="imu_complementary_filter" type="complementary_filter_node" output="screen">
+        <param name="gain_acc" value="0.05" type="double"/>
+        <param name="gain_mag" value="0.01" type="double"/>
+        <param name="use_mag" value="False" type="bool"/>
+    </node> -->
+
+    <!-- <node name="pose_node" pkg="slam" type="pose_pub.py" output="screen"/> -->
+    
+    <node pkg="ouster_ros" name="os_node" type="os_node" output="screen" required="true">
+      <param name="~/lidar_mode" type="string" value="512x20"/>
+      <param name="~/timestamp_mode" type="string" value="TIME_FROM_INTERNAL_OSC"/>
+      <param name="~/sensor_hostname" value="os-122139000926.local"/>
+      <param name="~/metadata" value="/home/uwfsae/catkin_ws/src/slam/lidar_metadata.json"/>
+    </node>
+
+    <node pkg="ouster_ros" type="os_cloud_node" name="os_cloud_node" output="screen" required="true">
+      <remap from="~/os_config" to="/os_node/os_config"/>
+      <remap from="~/lidar_packets" to="/os_node/lidar_packets"/>
+      <remap from="~/imu_packets" to="/os_node/imu_packets"/>
+      <param name="~/tf_prefix" value="os"/>
+    </node>
+
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan" output='screen'>
+      <remap from='cloud_in' to='/os_cloud_node/points'/>
+      <param name="range_min" type='double' value='0.2'/>
+      <param name='range_max' type='double' value='100'/>
+    </node>
+
+    <!-- <node pkg='gmapping' type='slam_gmapping' name="gmapping" output='screen'/> -->
+    <node pkg='hector_mapping' type='hector_mapping' name='hector_mapping' output='screen'>
+      <param name='map_update_distance_thresh' type='double' value='0.1'/>
+      <param name='map_update_angle_thresh' type='double' value='0.1'/>
+      <param name='map_resolution' type='double' value='0.025'/>
+    </node>
+
+    <node pkg="hector_geotiff" type="geotiff_node" name="hector_geotiff_node" output="screen" launch-prefix="nice -n 15">
+      <remap from="map" to="/dynamic_map" />
+      <!-- <param name="map_file_path" type="string" value="~/driverless_ws/geotiff" /> -->
+      <param name="map_file_base_name" type="string" value="geotiff_map" />
+      <param name="geotiff_save_period" type="double" value="0" />
+      <param name="draw_background_checkerboard" type="bool" value="true" />
+      <param name="draw_free_space_grid" type="bool" value="true" />
+      <param name="plugins" type="string" value="hector_geotiff_plugins/TrajectoryMapWriter" />
+    </node>
+
+
+</launch>

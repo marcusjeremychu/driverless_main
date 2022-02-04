@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/uwfsae/catkin_ws/src/linefit_ground_segmentation_ros/install/setup.sh

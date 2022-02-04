@@ -1,0 +1,7 @@
+To build, use catkin build instead of catkin_make
+
+
+roslaunch ouster_ros ouster.launch sensor_hostname:=os-122139000926.local metadata:=./data
+roslaunch transforms transforms.launch
+roslaunch linefit_ground_segmentation_ros segmentation.launch
+roslaunch slam slam.launch (This also launches the LIDAR, you don't need to launch ouster_ros too)

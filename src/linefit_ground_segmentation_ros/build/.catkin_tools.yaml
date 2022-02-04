@@ -1,0 +1,6 @@
+devel_space: /home/uwfsae/catkin_ws/src/linefit_ground_segmentation_ros/devel
+install: false
+install_space: /home/uwfsae/catkin_ws/src/linefit_ground_segmentation_ros/install
+profile: default
+source_space: /home/uwfsae/catkin_ws/src/linefit_ground_segmentation_ros/src
+workspace: /home/uwfsae/catkin_ws/src/linefit_ground_segmentation_ros
